@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1 style="font-size: 24px">Assign Tickets to User</h1>
+<hr>
+<p>The following <strong>{{ tickets.count }}</strong> ticket(s) will be reassigned</p>
+<p>Format: Ticket | Current Assignee</p>
+<br>
+<ul>
+  {% for ticket in tickets %}
+    <li>{{ ticket.title }} | {{ ticket.assigned_to.get_full_name|default:ticket.assigned_to.username }}</li>
+  {% endfor %}
+</ul>
+<br>
+<form method="post">
+  {% csrf_token %}
+  <!-- Hidden fields to pass selected ticket IDs and action type -->
+  <input type="hidden" name="action" value="bulk_assign_tickets">
+  {% for id in selected_ids %}
+    <input type="hidden" name="_selected_action" value="{{ id }}">
+  {% endfor %}
+  <input type="hidden" name="apply" value="1">
+  <!-- User selection field -->
+  {{ form.as_p }}
+  <!-- Submit and cancel buttons -->
+  <input type="submit" value="Assign">
+  <span style="margin-left: 10px;"></span>
+  <a href="../">Cancel</a>
+</form>
+{% endblock %}
