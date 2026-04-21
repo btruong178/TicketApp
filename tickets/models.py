@@ -6,6 +6,7 @@ Includes:
     Classes:
     - Ticket: Represents a support ticket submitted by a user
     - TicketNote: Represents a note attached to a support ticket
+    
 """
 from django.db import models
 from django.contrib.auth.models import User

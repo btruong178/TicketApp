@@ -78,9 +78,10 @@ def bulk_assign_tickets(modeladmin, request, queryset):
             user = form.cleaned_data['assigned_to']
             selected_ids = request.POST.getlist('_selected_action')
             Ticket.objects.filter(pk__in=selected_ids).update(assigned_to=user)
+            target_label = (user.get_full_name() or user.username) if user else '-'
             modeladmin.message_user(
                 request,
-                f"{len(selected_ids)} ticket(s) assigned to {user.get_full_name() or user.username}."
+                f"{len(selected_ids)} ticket(s) assigned to {target_label}."
             )
             return redirect(request.get_full_path().split('?')[0])
     else:
@@ -174,7 +175,8 @@ class TicketNoteAdmin(ModelAdmin):
         readonly_fields (tuple): Fields that are read-only in the admin form.
         search_fields (tuple): Fields to include in the search functionality.
     """
-    list_display = ('note_title', 'ticket', 'author', 'created_at', 'updated_at')
+    list_display = ('ticket', 'note_title', 'author', 'created_at', 'updated_at')
+    list_filter = ('author',)
     readonly_fields = ('created_at', 'updated_at', 'author')
     search_fields = ('ticket__title', 'author__username')
 

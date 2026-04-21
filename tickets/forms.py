@@ -20,5 +20,6 @@ class BulkAssignForm(forms.Form):
     assigned_to = forms.ModelChoiceField(
         queryset=User.objects.all(),
         label="Assign to User",
-        empty_label="-- Select a User --",
+        required=False,
+        empty_label="-",
     )
