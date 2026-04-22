@@ -7,6 +7,7 @@ It allows users to create, assign, and track support tickets with priorities and
 
 - [Python 3.14](https://www.python.org/)
 - [Django 6.0](https://www.djangoproject.com/)
+- [Django REST Framework](https://www.django-rest-framework.org/)
 - [Unfold](https://unfoldadmin.com/)
 - SQLite
 
@@ -32,6 +33,10 @@ It allows users to create, assign, and track support tickets with priorities and
 - Filter tickets by status and priority
 - Search notes by ticket title or author username
 - Filter notes by author
+
+**REST API**
+- CRUD API for tickets via Django REST Framework
+- Authentication required on API endpoints
 
 ## Prerequisites
 
@@ -90,6 +95,18 @@ python manage.py loaddata seed.json
 python manage.py runserver
 ```
 
+## REST API
+
+The API requires authentication. Log into the admin panel first.
+
+API Root: [http://127.0.0.1:8000/tickets/](http://127.0.0.1:8000/tickets/)
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/tickets/` | List all tickets |
+| POST | `/tickets/` | Create a ticket |
+| GET / PUT / PATCH / DELETE | `/tickets/{id}/` | Retrieve / Update / Partial Update / Delete |
+
 ## Accessing the Admin Panel
 
 Navigate to: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
@@ -99,6 +116,11 @@ Any of the seeded credentials below will work to log in.
 ## Seeded User Accounts
 
 All users are configured as superusers and have full admin access.
+
+Available through the command:
+```bash
+python manage.py loaddata seed.json
+```
 
 | Username | Password |
 |---|---|
