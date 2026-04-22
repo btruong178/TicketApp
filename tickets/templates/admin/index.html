@@ -1,0 +1,85 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="mb-8">
+  <h2 class="text-xl font-semibold text-gray-100 mb-1">Dashboard</h2>
+  <p class="text-sm text-gray-400">Ticket summary overview</p>
+</div>
+
+<!-- Stat Cards -->
+<div class="grid grid-cols-2 gap-4 mb-8 lg:grid-cols-3">
+
+  <div class="rounded-lg border border-gray-700 bg-gray-800 p-5">
+    <p class="text-xs uppercase tracking-wide text-gray-400 mb-1">Total Tickets</p>
+    <p class="text-3xl font-bold text-white">{{ summary.total }}</p>
+  </div>
+
+  <div class="rounded-lg border border-gray-700 bg-gray-800 p-5">
+    <p class="text-xs uppercase tracking-wide text-gray-400 mb-1">New</p>
+    <p class="text-3xl font-bold text-blue-400">{{ summary.new }}</p>
+  </div>
+
+  <div class="rounded-lg border border-gray-700 bg-gray-800 p-5">
+    <p class="text-xs uppercase tracking-wide text-gray-400 mb-1">In Progress</p>
+    <p class="text-3xl font-bold text-yellow-400">{{ summary.in_progress }}</p>
+  </div>
+
+  <div class="rounded-lg border border-gray-700 bg-gray-800 p-5">
+    <p class="text-xs uppercase tracking-wide text-gray-400 mb-1">Resolved</p>
+    <p class="text-3xl font-bold text-green-400">{{ summary.resolved }}</p>
+  </div>
+
+  <div class="rounded-lg border border-gray-700 bg-gray-800 p-5">
+    <p class="text-xs uppercase tracking-wide text-gray-400 mb-1">Unassigned</p>
+    <p class="text-3xl font-bold text-red-400">{{ summary.unassigned }}</p>
+  </div>
+
+  <div class="rounded-lg border border-gray-700 bg-gray-800 p-5">
+    <p class="text-xs uppercase tracking-wide text-gray-400 mb-1">High Priority</p>
+    <p class="text-3xl font-bold text-orange-400">{{ summary.high_priority }}</p>
+  </div>
+
+</div>
+
+<!-- Recent Tickets Table -->
+<div class="rounded-lg border border-gray-700 bg-gray-800 overflow-hidden">
+  <div class="px-5 py-4 border-b border-gray-700">
+    <h3 class="text-sm font-semibold text-gray-100">Recently Created Tickets</h3>
+  </div>
+  <table class="w-full text-sm">
+    <thead class="bg-gray-700">
+      <tr>
+        <th class="text-left px-5 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Title</th>
+        <th class="text-left px-5 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Status</th>
+        <th class="text-left px-5 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Priority</th>
+        <th class="text-left px-5 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Requester</th>
+        <th class="text-left px-5 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Assigned To</th>
+        <th class="text-left px-5 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Created</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-700">
+      {% for ticket in recent_tickets %}
+      <tr class="hover:bg-gray-700">
+        <td class="px-5 py-3 text-white">
+          <a href="{% url 'admin:tickets_ticket_change' ticket.pk %}" class="hover:underline">{{ ticket.title }}</a>
+        </td>
+        <td class="px-5 py-3 text-gray-300">{{ ticket.get_status_display }}</td>
+        <td class="px-5 py-3 text-gray-300">{{ ticket.get_priority_display }}</td>
+        <td class="px-5 py-3 text-gray-300">{{ ticket.requester_name }}</td>
+        <td class="px-5 py-3 text-gray-300">
+          {% if ticket.assigned_to %}{{ ticket.assigned_to.get_full_name|default:ticket.assigned_to.username }}{% else %}—{% endif %}
+        </td>
+        <td class="px-5 py-3 text-gray-400">{{ ticket.created_at|date:"M d, Y" }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6" class="px-5 py-4 text-center text-gray-400">No tickets yet.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
