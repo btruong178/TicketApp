@@ -15,17 +15,17 @@ It allows users to create, assign, and track support tickets with priorities and
 
 **Ticket Management**
 - Create support tickets with a title, description, status, and priority level (High / Medium / Low)
-- Track ticket lifecycle through three statuses: New, In Progress, Resolved
+- Track ticket lifecycle through three statuses (New / In Progress / Resolved)
 - Tickets are ordered by priority then creation date
 - Requester is automatically set to the logged-in user on creation
-- Able to assign to a user
+- Ability to assign ticket to user
 
 **Bulk Actions**
 - Bulk resolve selected tickets
 - Bulk assign selected tickets to a user
 
 **Ticket Notes**
-- Add notes to tickets inline from the ticket detail page, or via a standalone notes changelist
+- Add notes to tickets
 - Notes track their author and both created/updated timestamps
 
 **Search & Filtering**
